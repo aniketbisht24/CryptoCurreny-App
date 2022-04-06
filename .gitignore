@@ -2,7 +2,7 @@
 
 # dependencies
 crypto-app-frontend/node_modules
-crypto-app-backend/node_modules
+crypto-app-backend/server/node_modules
 /node_modules
 /.pnp
 .pnp.js

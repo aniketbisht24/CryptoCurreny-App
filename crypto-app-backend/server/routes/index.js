@@ -5,9 +5,13 @@ const router = express.Router();
 const pingRoutes = require('./ping.js');
 const healthCheckRoutes = require('./health-check');
 const apiSpecRoutes = require('./api-spec');
+const authRoutes = require('./auth');
+// const blogRoutes = require('./blog');
 
 pingRoutes(router);
 healthCheckRoutes(router);
 apiSpecRoutes(router);
+authRoutes(router);
+// blogRoutes(router);
 
 module.exports = router;

@@ -51,7 +51,7 @@ try {
   app.use(Authentication({
     IDENTITY_SERVICE_URL,
     AUDIENCE: 'platform',
-    ignorePaths: [ '/graphql', '/ping', '/healthcheck' ],
+    ignorePaths: [ '/graphql', '/ping', '/healthcheck', '/register' ],
   }));
 
   const apolloServer = new ApolloServer({

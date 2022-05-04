@@ -1,4 +1,7 @@
-const get = require('./get');
-const register = require('./register');
+const auth = require('./auth');
+const post = require('./post');
 
-module.exports = { get, register };
+module.exports = {
+  ...auth,
+  ...post,
+};

@@ -89,7 +89,7 @@ const deletePost = async (req, res) => {
 
 const getByIdPost = async (req, res) => {
   try {
-    const { params: { publicId } } = req;
+    const { params: { blogPublicId: publicId } } = req;
 
     const data = { publicId };
 
@@ -115,7 +115,7 @@ const getByIdPost = async (req, res) => {
 
 const getByUserIdPost = async (req, res) => {
   try {
-    const { params: { publicId } } = req;
+    const { params: { userPublicId: publicId } } = req;
 
     const data = { publicId };
 
@@ -137,10 +137,25 @@ const getByUserIdPost = async (req, res) => {
   }
 };
 
+const getPost = async (req, res) => {
+  try {
+    const { errors: registerErrors, doc } = await PostService.getPost();
+
+    if (registerErrors) {
+      return res.json(registerErrors);
+    }
+
+    return res.json(doc);
+  } catch (error) {
+    return res.serverError(error);
+  }
+};
+
 module.exports = {
   createPost,
   updatePost,
   deletePost,
   getByIdPost,
   getByUserIdPost,
+  getPost,
 };

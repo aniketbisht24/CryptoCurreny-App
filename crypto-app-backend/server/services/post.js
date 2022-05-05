@@ -133,10 +133,34 @@ const getByUserIdPost = async (payload) => {
   }
 };
 
+const getPost = async () => {
+  try {
+    const postResponse = await UserModel.findandCountAll({});
+    // include post model here as well
+
+    if (postResponse) {
+      const { rows, count } = postResponse;
+      const listBlogs = rows.map((row) => {
+        const { dataValues } = row;
+        const { ...data } = dataValues;
+
+        return data;
+      });
+
+      return { doc: { count, listBlogs } };
+    }
+
+    return { errors: [ { name: 'public', message: 'no such user exists against this publicId.' } ] };
+  } catch (err) {
+    return { errors: [ { name: 'transaction', message: 'transaction failed.' } ] };
+  }
+};
+
 module.exports = {
   createPost,
   updatePost,
   deletePost,
   getByIdPost,
   getByUserIdPost,
+  getPost,
 };

@@ -3,9 +3,10 @@ const {
   createPost: createPostSchema, updatePost: updatePostSchema, deletePost: deletePostSchema, getByIdPost: getByIdPostSchema,
   getByUserIdPost: getByUserIdPostSchema,
 } = require('../dto-schemas');
-const { Post: PostService } = require('../services');
+const imagePath = require('path');
+const multer = require('multer');
 
-// CREATE POSTS
+const { Post: PostService } = require('../services');
 
 const createPost = async (req, res) => {
   try {
@@ -28,8 +29,6 @@ const createPost = async (req, res) => {
     return res.serverError(error);
   }
 };
-
-// UPDATE POST
 
 const updatePost = async (req, res) => {
   try {
@@ -61,8 +60,6 @@ const updatePost = async (req, res) => {
   }
 };
 
-// DELETE POST
-
 const deletePost = async (req, res) => {
   try {
     const { params: { publicId } } = req;
@@ -84,8 +81,6 @@ const deletePost = async (req, res) => {
     return res.serverError(error);
   }
 };
-
-// GET SPECIFIC POST
 
 const getByIdPost = async (req, res) => {
   try {
@@ -110,8 +105,6 @@ const getByIdPost = async (req, res) => {
     return res.serverError(error);
   }
 };
-
-// GET ALL POSTS
 
 const getByUserIdPost = async (req, res) => {
   try {
@@ -151,6 +144,27 @@ const getPost = async (req, res) => {
   }
 };
 
+const uploadImages = async (req, res) => {
+  try {
+    const storage = multer.diskStorage({
+      destination: imagePath.join(__dirname, '../images/'),
+      filename: req.body.name,
+    });
+
+    const upload = multer({ storage });
+
+    await upload.single('file');
+
+    if (!req.file) {
+      return res.json('Pls. attach a file');
+    }
+
+    return res.status(200).json('File has been uploaded');
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   createPost,
   updatePost,
@@ -158,4 +172,5 @@ module.exports = {
   getByIdPost,
   getByUserIdPost,
   getPost,
+  uploadImages,
 };

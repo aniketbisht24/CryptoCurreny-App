@@ -144,17 +144,8 @@ const getPost = async (req, res) => {
   }
 };
 
-const uploadImages = async (req, res) => {
+const uploadPostImages = async (req, res) => {
   try {
-    const storage = multer.diskStorage({
-      destination: imagePath.join(__dirname, '../images/'),
-      filename: req.body.name,
-    });
-
-    const upload = multer({ storage });
-
-    await upload.single('file');
-
     if (!req.file) {
       return res.json('Pls. attach a file');
     }
@@ -172,5 +163,5 @@ module.exports = {
   getByIdPost,
   getByUserIdPost,
   getPost,
-  uploadImages,
+  uploadPostImages,
 };

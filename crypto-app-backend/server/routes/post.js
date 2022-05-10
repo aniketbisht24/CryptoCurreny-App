@@ -1,21 +1,9 @@
-const imagePath = require('path');
-const multer = require('multer');
-
 const {
   createPost, updatePost, deletePost, getByIdPost,
-  getByUserIdPost, getPost, uploadImages,
+  getByUserIdPost, getPost, uploadPostImages,
 } = require('../controllers/post');
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, imagePath.join(__dirname, '../images/'));
-  },
-  filename: (req, file, cb) => {
-    cb(null, 'hello');
-  },
-});
-
-const upload = multer({ storage });
+const { uploadFile } = require('../utils/helper');
 
 module.exports = (router) => {
   router.post('/blog/create', createPost);
@@ -24,5 +12,5 @@ module.exports = (router) => {
   router.post('/blog', getPost);
   router.get('/blog/:blogPublicId', getByIdPost);
   router.get('/blog/userPublicId', getByUserIdPost);
-  router.post('/api/upload/images', upload.single('file'), uploadImages);
+  router.post('/blog/upload/images', uploadFile.single('file'), uploadPostImages);
 };

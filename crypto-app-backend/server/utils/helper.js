@@ -2,6 +2,8 @@ const convertCamelCase = require('lodash.camelcase');
 const convertSnakeCase = require('lodash.snakecase');
 const axios = require('axios');
 const crypto = require('crypto');
+const imagePath = require('path');
+const multer = require('multer');
 
 const convertCamelObjectToSnake = (payload) => {
   const obj = { ...payload };
@@ -203,6 +205,17 @@ const convertToSlug = (string) => {
     .replace(/-+$/, '');
 };
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, imagePath.join(__dirname, '../images/'));
+  },
+  filename: (req, file, cb) => {
+    cb(null, 'hello');
+  },
+});
+
+const uploadFile = multer({ storage });
+
 module.exports = {
   convertCamelObjectToSnake,
   convertCamelToSnake,
@@ -214,4 +227,5 @@ module.exports = {
   getRequest,
   generateRandomPassword,
   convertToSlug,
+  uploadFile,
 };

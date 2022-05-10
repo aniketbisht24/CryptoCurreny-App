@@ -136,6 +136,18 @@ const getUsers = async (req, res) => {
   }
 };
 
+const uploadProfilePic = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.json('Pls. attach a file');
+    }
+
+    return res.status(200).json('File has been uploaded');
+  } catch (err) {
+    return err;
+  }
+};
+
 module.exports = {
   register,
   login,
@@ -143,4 +155,5 @@ module.exports = {
   deleteUser,
   getByPublicId,
   getUsers,
+  uploadProfilePic,
 };

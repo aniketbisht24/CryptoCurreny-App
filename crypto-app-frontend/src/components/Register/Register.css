@@ -1,0 +1,64 @@
+.register{
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerTitle{
+    font-size: 80px;
+}
+
+.registerForm{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.registerForm > label {
+    margin: 10px 0;
+    font-size: 30px;
+}
+
+.registerInput{
+    padding: 10px;
+    background-color: grey;
+    font-size: 20px;
+
+}
+
+.registerButton{
+    margin-top: 20px;
+    cursor: pointer;
+    background-color: grey;
+    color: black;
+    font-weight: 500;
+    font-size: 30px;
+    border-radius: 20px;
+}
+
+.registerLoginButton{
+    margin-top: 20px;
+    cursor: pointer;
+    border: none;
+    background-color: grey;
+    color: black;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.registerButton:hover{
+    background-color: rgb(255, 255, 255);
+}
+
+.registerLoginButton:hover{
+    background-color: rgb(255, 255, 255);
+}
+
+.register-link{
+    text-decoration: none;
+    color: inherit;
+    background-color: inherit;
+}

@@ -10,7 +10,7 @@ module.exports = (router) => {
   router.put('/blog/:publicId/update', updatePost);
   router.delete('/blog/:publicId/delete', deletePost);
   router.post('/blog', getPost);
+  router.get('/blog/:userPublicId/posts', getByUserIdPost);
   router.get('/blog/:blogPublicId', getByIdPost);
-  router.get('/blog/userPublicId', getByUserIdPost);
   router.post('/blog/upload/images', uploadFile.single('file'), uploadPostImages);
 };

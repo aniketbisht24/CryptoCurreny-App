@@ -2,13 +2,17 @@ const { v1: uuidV1 } = require('uuid');
 const { sequelize, user: UserModel, post: PostModel } = require('../database');
 
 const createPost = async (payload) => {
-  try {
-    const {
-      username, title, desc, category,
-    } = payload;
+  const {
+    username, title, desc, categories,
+  } = payload;
 
+  const transaction = await sequelize.transaction();
+
+  try {
     const userResponse = await UserModel.findOne({
       where: { user_name: username },
+      transaction,
+      lock: transaction.LOCK.UPDATE,
     });
 
     if (userResponse) {
@@ -18,15 +22,20 @@ const createPost = async (payload) => {
         public_id: uuidV1(),
         title,
         desc,
-        category,
+        categories,
         user_id: userId,
       });
 
+      await transaction.commit();
+
       return { doc: 'blog successfully created' };
     }
+    await transaction.rollback();
 
     return { errors: { name: 'user', message: 'invalid user' } };
   } catch (err) {
+    await transaction.rollback();
+
     return { errors: [ { name: 'transaction', message: 'transaction failed.' } ] };
   }
 };
@@ -87,6 +96,11 @@ const getByIdPost = async (payload) => {
 
     const postResponse = await PostModel.findOne({
       where: { public_id: publicId },
+      include: [
+        {
+          model: UserModel,
+        },
+      ],
     });
 
     if (postResponse) {
@@ -106,7 +120,7 @@ const getByUserIdPost = async (payload) => {
   try {
     const { publicId } = payload;
 
-    const postResponse = await UserModel.findandCountAll({
+    const postResponse = await UserModel.findOne({
       where: { public_id: publicId },
       attributes: [ 'id' ],
       include: [ {
@@ -116,15 +130,10 @@ const getByUserIdPost = async (payload) => {
     });
 
     if (postResponse) {
-      const { rows, count } = postResponse;
-      const listBlogs = rows.map((row) => {
-        const { dataValues } = row;
-        const { ...data } = dataValues;
+      const { dataValues: { posts } } = postResponse;
+      const listBlogs = posts.map(({ dataValues }) => dataValues);
 
-        return data;
-      });
-
-      return { doc: { count, listBlogs } };
+      return { doc: listBlogs };
     }
 
     return { errors: [ { name: 'public', message: 'no such user exists against this publicId.' } ] };
@@ -133,10 +142,33 @@ const getByUserIdPost = async (payload) => {
   }
 };
 
-const getPost = async () => {
+const getPost = async (publicId) => {
   try {
-    const postResponse = await UserModel.findandCountAll({});
-    // include post model here as well
+    if (publicId) {
+      const response = await UserModel.findOne({
+        where: { public_id: publicId },
+        include: [
+          {
+            model: PostModel,
+          },
+        ],
+      });
+
+      if (response) {
+        const { dataValues: { posts } } = response;
+
+        const doc = posts.map(({ dataValues }) => dataValues);
+
+        return { doc };
+      }
+    }
+    const postResponse = await PostModel.findAndCountAll({
+      include: [
+        {
+          model: UserModel,
+        },
+      ],
+    });
 
     if (postResponse) {
       const { rows, count } = postResponse;

@@ -1,6 +1,6 @@
 const { v1: uuidV1 } = require('uuid');
 const bcrypt = require('bcrypt');
-const { sequelize, user: UserModel } = require('../database');
+const { sequelize, user: UserModel, post: PostModel } = require('../database');
 
 const register = async (payload) => {
   try {
@@ -105,14 +105,17 @@ const changePassword = async (payload) => {
   }
 };
 
-// INCLUDE ALL THE POSTS AS WELL OF THIS SPECIFIC USER
-
 const deleteUser = async (payload) => {
   try {
     const { publicId } = payload;
 
     const userResponse = await UserModel.findOne({
       where: { public_id: publicId },
+      include: [
+        {
+          model: PostModel,
+        },
+      ],
     });
 
     if (userResponse) {
@@ -133,6 +136,11 @@ const getByPublicId = async (payload) => {
 
     const userResponse = await UserModel.findOne({
       where: { public_id: publicId },
+      include: [
+        {
+          model: PostModel,
+        },
+      ],
     });
 
     if (userResponse) {

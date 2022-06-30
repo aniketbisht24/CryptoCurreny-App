@@ -3,8 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
 const helmet = require('helmet');
-const multer = require('multer');
-const imagePath = require('path');
 // const Authentication = require('smart-auth-middleware');
 const { buildFederatedSchema } = require('@apollo/federation');
 const { ApolloServer } = require('apollo-server-express');
@@ -18,7 +16,7 @@ const { typeDefs, resolvers } = require('./graphql');
 
 const routes = require('./routes');
 
-const { PORT, IDENTITY_SERVICE_URL } = require('./config');
+const { PORT } = require('./config');
 
 const app = express();
 
@@ -51,11 +49,7 @@ try {
   app.use(express.json());
 
   // app.use(Authentication({
-  //   IDENTITY_SERVICE_URL,
-  //   AUDIENCE: 'platform',
-  //   ignorePaths: [ '/graphql', '/ping', '/healthcheck', '/register', '/login',
-  //     '/login/:publicId', '/login/:publicId/delete', '/users/:id', '/users' ],
-  // }));
+  //   IDENTITY_
 
   const apolloServer = new ApolloServer({
     schema,

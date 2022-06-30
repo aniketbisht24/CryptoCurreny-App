@@ -8,8 +8,8 @@ module.exports = {
   PORT: process.env.PORT || 3000,
   DATABASE: {
     name: process.env.DB_NAME || 'crypto_service',
-    username: process.env.DB_USER_NAME || 'postgres',
-    password: process.env.DB_PASSWORD || 'postgres',
+    username: process.env.DB_USER_NAME || 'aniket',
+    password: process.env.DB_PASSWORD || 'aniket',
     options: {
       host: process.env.DB_HOST,
       port: process.env.DB_PORT || 5432,
@@ -33,5 +33,4 @@ module.exports = {
       logging: false,
     },
   },
-  IDENTITY_SERVICE_URL: process.env.IDENTITY_SERVICE_URL || 'https://auth-dev.eazyfin.com',
 };

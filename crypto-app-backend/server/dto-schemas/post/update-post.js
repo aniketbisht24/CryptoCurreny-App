@@ -20,9 +20,10 @@ const updatePost = {
       type: 'string',
       description: 'description of a post',
     },
-    category: {
+    categories: {
       type: 'string',
       description: 'category of a post',
+      enum: [ 'Crypto-Currency', 'Block-Chain', 'NFT', 'Mining' ],
     },
   },
   required: [ 'publicId', 'username', 'title', 'desc', 'category' ],

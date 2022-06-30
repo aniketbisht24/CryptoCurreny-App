@@ -1,10 +1,8 @@
 const Validator = require('../utils/validator');
 const {
-  createPost: createPostSchema, updatePost: updatePostSchema, deletePost: deletePostSchema, getByIdPost: getByIdPostSchema,
+  createPost: createPostSchema, updatePost: updatePostSchema, deletePost: deletePostSchema, getByPublicIdPost: getByPublicIdPostSchema,
   getByUserIdPost: getByUserIdPostSchema,
 } = require('../dto-schemas');
-const imagePath = require('path');
-const multer = require('multer');
 
 const { Post: PostService } = require('../services');
 
@@ -86,15 +84,13 @@ const getByIdPost = async (req, res) => {
   try {
     const { params: { blogPublicId: publicId } } = req;
 
-    const data = { publicId };
-
-    const { errors, data: validData } = Validator.isSchemaValid({ data: { publicId }, schema: getByIdPostSchema });
+    const { errors, data: validData } = Validator.isSchemaValid({ data: { publicId }, schema: getByPublicIdPostSchema });
 
     if (errors) {
       return res.badRequest('field-validation', errors);
     }
 
-    const { errors: registerErrors, doc } = await PostService.getByPublicIdPost(validData);
+    const { errors: registerErrors, doc } = await PostService.getByIdPost(validData);
 
     if (registerErrors) {
       return res.json(registerErrors);
@@ -108,9 +104,7 @@ const getByIdPost = async (req, res) => {
 
 const getByUserIdPost = async (req, res) => {
   try {
-    const { params: { userPublicId: publicId } } = req;
-
-    const data = { publicId };
+    const { query: { userPublicId: publicId } } = req;
 
     const { errors, data: validData } = Validator.isSchemaValid({ data: { publicId }, schema: getByUserIdPostSchema });
 
@@ -132,7 +126,9 @@ const getByUserIdPost = async (req, res) => {
 
 const getPost = async (req, res) => {
   try {
-    const { errors: registerErrors, doc } = await PostService.getPost();
+    const { query: { userPublicId: publicId } } = req;
+
+    const { errors: registerErrors, doc } = await PostService.getPost(publicId);
 
     if (registerErrors) {
       return res.json(registerErrors);

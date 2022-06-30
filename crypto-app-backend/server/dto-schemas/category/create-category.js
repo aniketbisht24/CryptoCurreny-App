@@ -6,9 +6,10 @@ const createCategory = {
     name: {
       type: 'string',
       description: 'unique reference of user',
+      enum: [ 'Crypto-Currency', 'Block-Chain', 'NFT', 'Mining' ],
     },
   },
-  required: [ 'name', 'title', 'desc', 'category' ],
+  required: [ 'name' ],
   errorMessage: {
     required: {
       name: 'Parameter: name is required in the body.',

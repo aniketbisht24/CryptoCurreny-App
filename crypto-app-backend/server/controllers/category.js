@@ -4,8 +4,6 @@ const {
 } = require('../dto-schemas');
 const { Category: CategoryService } = require('../services');
 
-// CREATE POSTS
-
 const createCategory = async (req, res) => {
   try {
     const { body: data } = req;
@@ -28,8 +26,6 @@ const createCategory = async (req, res) => {
   }
 };
 
-// DELETE POST
-
 const deleteCategory = async (req, res) => {
   try {
     const { params: { publicId } } = req;
@@ -51,13 +47,10 @@ const deleteCategory = async (req, res) => {
     return res.serverError(error);
   }
 };
-// GET ALL POSTS
 
 const getByIdCategory = async (req, res) => {
   try {
     const { params: { userPublicId: publicId } } = req;
-
-    const data = { publicId };
 
     const { errors, data: validData } = Validator.isSchemaValid({ data: { publicId }, schema: getByIdCategorySchema });
 
@@ -77,8 +70,23 @@ const getByIdCategory = async (req, res) => {
   }
 };
 
+const getCategory = async (req, res) => {
+  try {
+    const { errors, doc } = await CategoryService.getCategory();
+
+    if (doc) {
+      return res.json(doc);
+    }
+
+    return res.json(errors);
+  } catch (error) {
+    return res.serverError(error);
+  }
+};
+
 module.exports = {
   createCategory,
   deleteCategory,
   getByIdCategory,
+  getCategory,
 };

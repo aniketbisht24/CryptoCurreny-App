@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       desc: { type: DataTypes.TEXT, allowNull: false },
       blog_photo: { type: DataTypes.STRING },
       user_id: { type: DataTypes.INTEGER, allowNull: false },
-      category_id: { type: DataTypes.INTEGER, allowNull: false },
+      categories: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        ENUM: [ 'Crypto-Currency', 'Block-Chain', 'NFT', 'Mining' ],
+      },
       created_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
       updated_at: { type: DataTypes.DATE, allowNull: false, defaultValue: DataTypes.NOW },
     },
@@ -20,9 +24,6 @@ module.exports = (sequelize, DataTypes) => {
   post.associate = (models) => {
     post.belongsTo(models.user, {
       foreignKey: 'user_id',
-    });
-    post.belongsTo(models.category, {
-      foreignKey: 'category_id',
     });
   };
 

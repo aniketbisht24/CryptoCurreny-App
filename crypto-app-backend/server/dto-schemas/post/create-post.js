@@ -15,25 +15,26 @@ const createPost = {
       type: 'string',
       description: 'description of a post',
     },
-    category: {
+    categories: {
       type: 'string',
       description: 'category of a post',
+      enum: [ 'Crypto-Currency', 'Block-Chain', 'NFT', 'Mining' ],
+
     },
   },
-  required: [ 'username', 'title', 'desc', 'category' ],
+  required: [ 'username', 'title', 'desc', 'categories' ],
   errorMessage: {
     required: {
       username: 'Parameter: username is required in the body.',
       title: 'Parameter: title is required in the body.',
       desc: 'Parameter: desc is required in the body.',
-      category: 'Parameter: category is required in the body.',
+      categories: 'Parameter: categories is required in the body.',
     },
     properties: {
       username: 'Parameter: username should be valid uuid.',
       title: 'Parameter: title should be valid string.',
       desc: 'Parameter: desc should be valid string.',
-      category: 'Parameter: category should be valid string.',
-
+      categories: 'Parameter: categories should be valid string.',
     },
   },
   additionalProperties: false,

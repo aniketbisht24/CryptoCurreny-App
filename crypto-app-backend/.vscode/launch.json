@@ -12,9 +12,9 @@
         "env": {
           "DB_NAME":"crypto_service",
 
-          "DB_USER_NAME":"postgres",
+          "DB_USER_NAME":"aniket",
 
-          "DB_PASSWORD":"postgres",
+          "DB_PASSWORD":"aniket",
 
           // "DB_HOST": "development.cpxn3s483ymd.ap-south-1.rds.amazonaws.com"
         }
@@ -58,9 +58,9 @@
         "env": {
           "DB_NAME":"crypto_service",
 
-          "DB_USER_NAME":"postgres",
+          "DB_USER_NAME":"aniket",
 
-          "DB_PASSWORD":"postgres",
+          "DB_PASSWORD":"aniket",
         }
       },
     ]

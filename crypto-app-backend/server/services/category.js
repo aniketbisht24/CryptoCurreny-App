@@ -56,8 +56,25 @@ const getByIdCategory = async () => {
   }
 };
 
+const getCategory = async () => {
+  try {
+    const categoryResponse = await CategoryModel.findAll({});
+
+    if (categoryResponse) {
+      const doc = categoryResponse.map(({ dataValues }) => dataValues);
+
+      return { doc };
+    }
+
+    return { errors: [ { name: 'category', message: 'no category available' } ] };
+  } catch (error) {
+    return { errors: [ { name: 'transaction', message: 'transaction failed.' } ] };
+  }
+};
+
 module.exports = {
   createCategory,
   deleteCategory,
   getByIdCategory,
+  getCategory,
 };
